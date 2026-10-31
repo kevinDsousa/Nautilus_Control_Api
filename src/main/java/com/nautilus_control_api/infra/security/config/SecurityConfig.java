@@ -44,8 +44,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/docs").permitAll()
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/docker/containers/**").permitAll()
-                        .requestMatchers("/docker/images/**").permitAll()
+                        .requestMatchers("/docker/hosts/**").permitAll()
+                        .requestMatchers("/host-folders/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(conf -> conf.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(conf -> conf.jwt(jwt -> jwt.decoder(jwtDecoder())))

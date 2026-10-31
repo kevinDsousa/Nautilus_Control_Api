@@ -56,6 +56,15 @@
 			<groupId>com.github.docker-java</groupId>
 			<artifactId>docker-java</artifactId>
 			<version>3.4.0</version>
+			<exclusions>
+				<!-- Usamos docker-java-transport-httpclient5; o transport-jersey traz
+					 jackson-module-jaxb-annotations, que quebra a inicializacao do Hibernate
+					 no Java 21 (javax.xml.bind foi removido do JDK). -->
+				<exclusion>
+					<groupId>com.github.docker-java</groupId>
+					<artifactId>docker-java-transport-jersey</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
@@ -103,6 +112,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>

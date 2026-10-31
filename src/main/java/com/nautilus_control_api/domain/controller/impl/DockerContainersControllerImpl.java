@@ -7,52 +7,53 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/docker/containers")
+@RequestMapping("/docker/hosts/{hostId}/containers")
 public class DockerContainersControllerImpl implements DockerContainersController {
     private final DockerService dockerService;
 
     @Override
     @GetMapping("/list")
-    public List<Container> listContainers(@RequestParam(required = false, defaultValue = "true") boolean showAll) {
-        return dockerService.listContainers(showAll);
+    public List<Container> listContainers(@PathVariable UUID hostId, @RequestParam(required = false, defaultValue = "true") boolean showAll) {
+        return dockerService.listContainers(hostId, showAll);
     }
 
     @Override
     @PostMapping("/{id}/start")
-    public void startContainer(@PathVariable String id) {
-        dockerService.startContainer(id);
+    public void startContainer(@PathVariable UUID hostId, @PathVariable String id) {
+        dockerService.startContainer(hostId, id);
     }
 
     @Override
     @PutMapping("/{id}/stop")
-    public void stopContainer(@PathVariable String id) {
-        dockerService.stopContainer(id);
+    public void stopContainer(@PathVariable UUID hostId, @PathVariable String id) {
+        dockerService.stopContainer(hostId, id);
     }
 
     @Override
     @PutMapping("/{id}/restart")
-    public void restartContainer(@PathVariable String id) {
-        dockerService.restartContainer(id);
+    public void restartContainer(@PathVariable UUID hostId, @PathVariable String id) {
+        dockerService.restartContainer(hostId, id);
     }
 
     @Override
     @PutMapping("/{id}/kill")
-    public void killContainer(@PathVariable String id) {
-        dockerService.killContainer(id);
+    public void killContainer(@PathVariable UUID hostId, @PathVariable String id) {
+        dockerService.killContainer(hostId, id);
     }
 
     @Override
     @DeleteMapping("/{id}/remove")
-    public void removeContainer(@PathVariable String id) {
-        dockerService.removeContainer(id);
+    public void removeContainer(@PathVariable UUID hostId, @PathVariable String id) {
+        dockerService.removeContainer(hostId, id);
     }
 
     @Override
     @PostMapping("/create")
-    public void createContainer(@RequestParam String imageName) {
-        dockerService.createContainer(imageName);
+    public void createContainer(@PathVariable UUID hostId, @RequestParam String imageName) {
+        dockerService.createContainer(hostId, imageName);
     }
 }
