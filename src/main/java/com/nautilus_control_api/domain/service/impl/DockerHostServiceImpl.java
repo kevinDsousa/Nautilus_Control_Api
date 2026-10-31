@@ -60,15 +60,32 @@ public class DockerHostServiceImpl implements DockerHostService {
         host.setDescription(request.getDescription());
         host.setDockerHost(request.getDockerHost());
         host.setTlsEnabled(request.isTlsEnabled());
-        host.setCaCert(request.getCaCert());
-        host.setClientCert(request.getClientCert());
-        host.setClientKey(request.getClientKey());
+        // Os certificados nunca sao devolvidos pela API (GET), entao o formulario de edicao
+        // nao consegue pre-preenche-los; um campo em branco aqui significa "manter o atual",
+        // nao "apagar". So sobrescreve quando o cliente de fato manda um novo valor.
+        if (request.getCaCert() != null && !request.getCaCert().isBlank()) {
+            host.setCaCert(request.getCaCert());
+        }
+        if (request.getClientCert() != null && !request.getClientCert().isBlank()) {
+            host.setClientCert(request.getClientCert());
+        }
+        if (request.getClientKey() != null && !request.getClientKey().isBlank()) {
+            host.setClientKey(request.getClientKey());
+        }
         host.setFolderId(request.getFolderId());
         host.setUpdatedAt(LocalDateTime.now());
 
         DockerHost saved = dockerHostRepository.save(host);
         dockerClientRegistry.invalidate(id);
         return toResponse(saved);
+    }
+
+    @Override
+    public DockerHostResponseDTO moveToFolder(UUID id, UUID folderId) {
+        DockerHost host = findOrThrow(id);
+        host.setFolderId(folderId);
+        host.setUpdatedAt(LocalDateTime.now());
+        return toResponse(dockerHostRepository.save(host));
     }
 
     @Override

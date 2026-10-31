@@ -10,5 +10,6 @@ public interface HostFolderService {
     List<HostFolderResponseDTO> list();
     HostFolderResponseDTO create(HostFolderRequestDTO request);
     HostFolderResponseDTO update(UUID id, HostFolderRequestDTO request);
+    HostFolderResponseDTO move(UUID id, UUID parentId);
     void delete(UUID id);
 }

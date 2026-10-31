@@ -1,5 +1,6 @@
 package com.nautilus_control_api.domain.controller;
 
+import com.nautilus_control_api.domain.model.dto.request.HostFolderMoveRequestDTO;
 import com.nautilus_control_api.domain.model.dto.request.HostFolderRequestDTO;
 import com.nautilus_control_api.domain.model.dto.response.HostFolderResponseDTO;
 import jakarta.validation.Valid;
@@ -13,5 +14,6 @@ public interface HostFolderController {
     List<HostFolderResponseDTO> list();
     HostFolderResponseDTO create(@Valid @RequestBody HostFolderRequestDTO request);
     HostFolderResponseDTO update(@PathVariable UUID id, @Valid @RequestBody HostFolderRequestDTO request);
+    HostFolderResponseDTO move(@PathVariable UUID id, @RequestBody HostFolderMoveRequestDTO request);
     void delete(@PathVariable UUID id);
 }

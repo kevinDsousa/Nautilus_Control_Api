@@ -1,6 +1,7 @@
 package com.nautilus_control_api.domain.controller.impl;
 
 import com.nautilus_control_api.domain.controller.HostFolderController;
+import com.nautilus_control_api.domain.model.dto.request.HostFolderMoveRequestDTO;
 import com.nautilus_control_api.domain.model.dto.request.HostFolderRequestDTO;
 import com.nautilus_control_api.domain.model.dto.response.HostFolderResponseDTO;
 import com.nautilus_control_api.domain.service.HostFolderService;
@@ -33,6 +34,12 @@ public class HostFolderControllerImpl implements HostFolderController {
     @PutMapping("/{id}")
     public HostFolderResponseDTO update(@PathVariable UUID id, @Valid @RequestBody HostFolderRequestDTO request) {
         return hostFolderService.update(id, request);
+    }
+
+    @Override
+    @PatchMapping("/{id}/move")
+    public HostFolderResponseDTO move(@PathVariable UUID id, @RequestBody HostFolderMoveRequestDTO request) {
+        return hostFolderService.move(id, request.getParentId());
     }
 
     @Override

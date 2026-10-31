@@ -1,6 +1,7 @@
 package com.nautilus_control_api.domain.controller.impl;
 
 import com.nautilus_control_api.domain.controller.DockerHostController;
+import com.nautilus_control_api.domain.model.dto.request.DockerHostMoveRequestDTO;
 import com.nautilus_control_api.domain.model.dto.request.DockerHostRequestDTO;
 import com.nautilus_control_api.domain.model.dto.response.DockerHostResponseDTO;
 import com.nautilus_control_api.domain.service.DockerHostService;
@@ -39,6 +40,12 @@ public class DockerHostControllerImpl implements DockerHostController {
     @PutMapping("/{id}")
     public DockerHostResponseDTO update(@PathVariable UUID id, @Valid @RequestBody DockerHostRequestDTO request) {
         return dockerHostService.update(id, request);
+    }
+
+    @Override
+    @PatchMapping("/{id}/move")
+    public DockerHostResponseDTO move(@PathVariable UUID id, @RequestBody DockerHostMoveRequestDTO request) {
+        return dockerHostService.moveToFolder(id, request.getFolderId());
     }
 
     @Override

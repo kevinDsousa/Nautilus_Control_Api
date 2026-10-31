@@ -48,6 +48,34 @@ public class HostFolderServiceImpl implements HostFolderService {
     }
 
     @Override
+    public HostFolderResponseDTO move(UUID id, UUID parentId) {
+        HostFolder folder = findOrThrow(id);
+
+        if (parentId != null) {
+            if (parentId.equals(id)) {
+                throw new IllegalArgumentException("Uma pasta nao pode ser movida para dentro dela mesma");
+            }
+            if (isDescendant(parentId, id)) {
+                throw new IllegalArgumentException("Nao e possivel mover uma pasta para dentro de uma de suas subpastas");
+            }
+        }
+
+        folder.setParentId(parentId);
+        return toResponse(hostFolderRepository.save(folder));
+    }
+
+    private boolean isDescendant(UUID candidateId, UUID ancestorId) {
+        UUID current = candidateId;
+        while (current != null) {
+            if (current.equals(ancestorId)) {
+                return true;
+            }
+            current = hostFolderRepository.findById(current).map(HostFolder::getParentId).orElse(null);
+        }
+        return false;
+    }
+
+    @Override
     public void delete(UUID id) {
         HostFolder folder = findOrThrow(id);
         UUID newParentId = folder.getParentId();

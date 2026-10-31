@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/error").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/docs").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/docker/hosts/**").permitAll()

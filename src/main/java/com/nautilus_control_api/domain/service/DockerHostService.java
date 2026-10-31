@@ -11,6 +11,7 @@ public interface DockerHostService {
     DockerHostResponseDTO getById(UUID id);
     DockerHostResponseDTO create(DockerHostRequestDTO request);
     DockerHostResponseDTO update(UUID id, DockerHostRequestDTO request);
+    DockerHostResponseDTO moveToFolder(UUID id, UUID folderId);
     void delete(UUID id);
     boolean testConnection(DockerHostRequestDTO request);
     boolean testConnection(UUID id);
